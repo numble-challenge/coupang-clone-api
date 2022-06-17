@@ -21,7 +21,7 @@ export const cors =
       "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
     );
     if (req.method === "OPTIONS") {
-      res.status(200).end();
+      res.status(204).end();
       return;
     }
     return await handler(req, res);
