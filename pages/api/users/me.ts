@@ -8,9 +8,9 @@ export default cors(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const email = bearer(req, "access");
+  const id = bearer(req, "access");
 
-  const user = await UserRepository.get({ email });
+  const user = await UserRepository.get(id);
 
   res.status(200).json(UserDto.from(user));
 });

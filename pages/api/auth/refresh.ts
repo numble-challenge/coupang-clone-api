@@ -6,6 +6,6 @@ export default cors(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const email = bearer(req, "refresh");
-  res.status(200).json(createJwt(email!));
+  const id = bearer(req, "refresh");
+  res.status(200).json(createJwt(id!));
 });

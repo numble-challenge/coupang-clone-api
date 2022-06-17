@@ -7,7 +7,7 @@ const REFRESH_SERCET = process.env.JWT_REFRESH_SECRET;
 export const bearer = (
   req: NextApiRequest,
   type: "access" | "refresh"
-): string => {
+): number => {
   if (!req.headers.authorization) {
     throw new Error("Unauthorized");
   }
@@ -21,7 +21,7 @@ export const bearer = (
 
   try {
     const payload = jwt.verify(token, secret!);
-    return (payload as jwt.JwtPayload).sub!;
+    return Number((payload as jwt.JwtPayload).sub!);
   } catch {
     throw new Error("토큰이 만료되었습니다.");
   }
