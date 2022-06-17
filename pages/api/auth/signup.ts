@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { cors, createJwt } from "@/lib";
-import { EmailRepository, UserRepository } from "@/repositories";
+import { UserRepository } from "@/repositories";
 
 export default cors(async function handler(
   req: NextApiRequest,
@@ -9,13 +9,12 @@ export default cors(async function handler(
 ) {
   const { email } = req.body;
 
-  const isExisting = await EmailRepository.check(email);
+  const isExisting = await UserRepository.checkEmail(email);
   if (isExisting) {
     throw new Error("이미 존재하는 이메일입니다.");
   }
 
   const user = await UserRepository.create(req.body);
-  await EmailRepository.create(email, user.id);
 
   res.status(200).json(createJwt(user.id));
 });

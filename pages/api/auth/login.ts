@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { cors, createJwt } from "@/lib";
-import { EmailRepository, UserRepository } from "@/repositories";
+import { UserRepository } from "@/repositories";
 
 export default cors(async function handler(
   req: NextApiRequest,
@@ -9,11 +9,10 @@ export default cors(async function handler(
 ) {
   const { email } = req.body;
 
-  const id = await EmailRepository.get(email);
-  const user = await UserRepository.get(id);
+  const user = await UserRepository.findByEmail(email);
   if (user.password !== req.body.password) {
     res.status(401).json("password unmatched");
   }
 
-  res.status(200).json(createJwt(id));
+  res.status(200).json(createJwt(user.id));
 });
