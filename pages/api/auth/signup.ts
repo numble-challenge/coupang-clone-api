@@ -1,26 +1,19 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import Cors from "cors";
 
-import { createJwt, initMiddleware } from "@/lib";
+import { cors, createJwt } from "@/lib";
 import { UserRepository } from "@/repositories";
 
-// Initialize the cors middleware
-const cors = initMiddleware(
-  // You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
-  Cors({
-    // Only allow requests with GET, POST and OPTIONS
-    methods: ["POST", "OPTIONS"],
-  })
-);
-
-export default async function handler(
+export default cors(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  await cors(req, res);
+  const isExisting = await UserRepository.check({ email: req.body.email });
+  if (isExisting) {
+    throw new Error("이미 존재하는 이메일입니다.");
+  }
 
   await UserRepository.create(req.body);
   const user = await UserRepository.get({ email: req.body.email });
 
   res.status(200).json(createJwt(user.email));
-}
+});

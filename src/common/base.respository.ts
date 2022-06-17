@@ -10,6 +10,12 @@ export abstract class BaseRepository<Entity, PK extends keyof Entity> {
 
   protected abstract getKey(input: Pick<Entity, PK>): string;
 
+  async check(input: Pick<Entity, PK>): Promise<boolean> {
+    const key = this.getKey(input);
+    const res = await redis.get<Entity>(key);
+    return res != null;
+  }
+
   async get(input: Pick<Entity, PK>): Promise<Entity> {
     const key = this.getKey(input);
     const res = await redis.get<Entity>(key);
