@@ -18,7 +18,7 @@ class EmailRepository {
 
   async create(email: string, id: number) {
     const key = this.getKey(email);
-    await redis.set(key, email);
+    await redis.set(key, id);
   }
 }
 
