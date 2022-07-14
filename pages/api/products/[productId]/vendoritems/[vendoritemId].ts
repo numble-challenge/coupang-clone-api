@@ -661,4 +661,6 @@ const result = {
   vendor: null,
   vendorItemId: 78633225153,
   wishList: false,
+  ratingCount: 13250,
+  ratingAverage: 5,
 };
