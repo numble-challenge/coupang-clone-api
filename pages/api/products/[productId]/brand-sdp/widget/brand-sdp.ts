@@ -6,7 +6,7 @@ export default cors(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (!req.query.vendorItemId || !req.query.itemId) {
+  if (!req.query.vendoritemId || !req.query.itemId) {
     res.status(400).send("query param invalid (vendorItemId, itemId)");
   }
 
