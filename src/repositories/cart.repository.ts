@@ -16,7 +16,7 @@ class CartRepository {
 
   async get(userId: number): Promise<CartItem[]> {
     const key = this.getKey(userId);
-    return JSON.parse((await redis.get(key)) ?? "[]");
+    return (await redis.get(key)) ?? [];
   }
 
   async clear(userId: number) {
@@ -54,7 +54,7 @@ class CartRepository {
       quantity: 1,
       product,
     }));
-    await redis.set(key, cartItems);
+    return await redis.set(key, cartItems);
   }
 }
 
