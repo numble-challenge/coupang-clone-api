@@ -7,6 +7,10 @@ export default cors(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  if (Math.random() > 0.5) {
+    throw new Error();
+  }
+
   const userId = bearer(req, "access");
   const id = Number(req.query.id);
 
