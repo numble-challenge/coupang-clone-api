@@ -412,6 +412,6 @@ const PRODUCT_DATAS: Omit<ProductInput, "id">[] = [
   },
 ];
 
-const PRODUCTS: Product[] = PRODUCT_DATAS.map((data, index) => {
+export const PRODUCTS: Product[] = PRODUCT_DATAS.map((data, index) => {
   return Product.from({ ...data, id: index + 1 });
 });
